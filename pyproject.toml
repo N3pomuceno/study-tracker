@@ -1,0 +1,15 @@
+[project]
+name = "banco_de_horas"
+version = "0.1.0"
+description = "Repositório dedicado a criar formatos padronizados de projetos de Data Science"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dbt-postgres>=1.9.0",
+    "matplotlib>=3.10.1",
+    "pandas>=2.2.3",
+    "pytest>=8.3.5",
+    "python-dotenv>=1.1.1",
+    "seaborn>=0.13.2",
+    "sqlalchemy>=2.0.39",
+]

@@ -1,0 +1,12 @@
+# Outputs
+data/*
+models/*
+logs/*
+
+# Settings
+.vscode/
+
+# Arquivos gerados por notebooks e por python
+**/__pycache__/
+*/.ipynb_checkpoints/
+.ipynb_checkpoints/
