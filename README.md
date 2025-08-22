@@ -2,43 +2,21 @@
 
 ## Description
 
-Projeto Dedicado para Monitorar Meus estudos em um Banco de Horas e depois realizar insights em cima dele.
+This project is a way to keep me track of the studies that I'm doing in my free time, and a way to make reports of how is it going. At the same time, it keeps me practising with personal projects and helps me develop my programming skills.
 
-To get a more complete description of the project, you can find in the `docs/documentation.md`.
+I'm doing it in my free time, and can be used for any kind of tracking, I'm focusing on study, but can be for habits, work, exercise. At first, I am doing everything by terminal, but at a second phase I'll use Streamlit to have a more approable face.
 
-## Setting Up the Virtual Environment
-
-Follow these steps to create the virtual environment, activate it, and install the project dependencies:
-
-```bash
-# Create the virtual environment:
-uv sync
+---
 
 
-# Enter the project's virtual environment:
-.venv/scripts/activate
+**Technologies**
 
-# Start Jupyter Notebook or JupyterLab (if preferred):
-jupyter notebook # or jupyter lab
-```
+- Docker
+- Python (Pandas, SqlAlchemy)
+- Postgresql
 
-## Using the Database
 
-To use the database, Docker Desktop or Engine must be installed and running. Once set up, start the database with:
-
-```bash
-docker-compose up -d
-```
-
-After this, the database will be running and accessible through tools like DBeaver or TablePlus using the credentials stored in `.database_env`.
-
-To stop the database, run:
-
-```bash
-docker-compose down
-```
-
-Additionally, the project includes the Data Build Tool ([DBT](https://docs.getdbt.com/docs/introduction)), which facilitates data transformation, validation, and efficiency monitoring in the database.
+---
 
 ## Initializing Git Repository
 
@@ -55,82 +33,42 @@ git remote add origin <your_repo_https_or_ssh_link>
 git push origin main
 ```
 
-## Project Structure
 
-The project is structured to streamline data science workflows. Below is an overview of the main directories:
-```
-banco_de_horas/
-├── README.md                   # Project overview and usage instructions
-├── .env                        # General environment variables
-├── .gitignore_project          # Git ignore rules
-├── .database_env               # Database-specific environment variables
-├── docker-compose.yml          # Configuration for containerized services
-├── pyproject.toml              # Dependency management and project metadata
+## How to run it down.
 
+After installing the programs needed, maybe bash would be a good idead too, but just open a terminal and execute the `db_config.sh` script from the root of the repository:
 
-├── docs/
-│   ├── documentation.md        # Project goals and detailed instructions
-│   └── todo.md                 # Task tracking and roadmap
-
-├── logs/                       # Logs generated during execution
-
-├── models/                     # Trained machine learning models
-├── models_results/             # Model evaluation metrics and reports
-├── sql/
-│   ├── queries/                # SQL queries for data extraction and analysis
-│   └── schemas/                # Database schema definitions
-
-├── src/
-│   ├── __init__.py
-│   ├── data/
-│   │   ├── db_config.py              # Database interaction helpers
-│   ├── features/
-│   │   └── build_features.py  # Feature engineering logic
-│   └── util/
-│       ├── eda.py             # Exploratory Data Analysis utilities
-│       ├── exception.py       # Custom exception classes
-│       └── logger.py          # Logging configuration
-└── tests/                      # Unit and integration tests
+```bash
+src/db_config.sh
 ```
 
+This script is the setup to create the database and to populate with the first themes, and study categories. It will pull a postgresql image do all the configuration needed in the container, and then it will exit.
 
-## Documentation and Planning
+This first script will run just one time, and it is for first configuration, after that execute a second script:
+```bash
+src/run_study_tracker.sh
+```
 
-To ensure proper alignment between team members and maintain clarity throughout the development process, this repository includes two key markdown files within the `docs/` folder:
+## Todo
 
-* **documentation.md**: Contains the overall goals, project scope, modeling strategy, and development guidelines. It serves as the reference document for decisions, assumptions, and rationale behind the project's structure.
-* **todo.md**: Tracks completed, ongoing, and upcoming tasks.
-* **/models_results**: The idea of documenting model results follows an established [standard](https://arxiv.org/pdf/1810.03993).  
+- [x] Update the `documentation.md` with more information about the project;
+- [x] Create Script to Keep running the db, throught a python execution
 
-### Transition from Notebook to Pipeline
+**Features**
+- [x] Create feature for adding new registry in database.
+- [ ] Create feature to see a report for the week and for the month.
+- [ ] Create CRUD feature for Categoria and for Materias.
+- [ ] Create Separated Menus for the CRUD of Categoria and Materias.
+- [ ] Create import and export feature to a csv file, trying to do without pandas.
 
-After thoroughly developing and validating your modeling approach using the Jupyter notebook (Modelling_banco_de_horas.ipynb), you are encouraged to:
 
- * Modularize the logic by migrating key components into Python scripts:
+**Second Phase**
+- [ ] Change menu for a Streamlit Application
+- [ ] Start using FastAPI to Route features.
 
-    * Preprocessing → feature_eng.py
-
-    * Training → train.py
-
-    * Evaluation/Prediction → predict.py
-
-* Automate execution using the shell script exec.sh, enabling a more reproducible and production-ready pipeline.
-
-This structure supports a clear path from experimentation to deployment, facilitating collaboration and future scaling in real environments.
 
 ## Best Practices
 
 - Always activate the virtual environment before working on the project to ensure correct dependencies.
 - Keep `pyproject.toml` or `requirements.txt` updated with necessary dependencies.
 - Use Git for version control and commit regularly to track progress.
-
-
-## About the Configuration File
-
-This project includes a `cfg/cfg.json` file that centralizes important configuration values such as file paths, model hyperparameters, and general settings. This approach:
-
-* Avoids hardcoding values across the codebase
-* Facilitates experimentation by allowing easy switching of parameters
-* Enhances code clarity, reusability, and maintainability
-
-The `cfg.json` is loaded within the `util/io.py` file, keeping configuration management streamlined and accessible throughout the project.
