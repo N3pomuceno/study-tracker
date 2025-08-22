@@ -27,8 +27,8 @@ activate_venv
 
 # 1. Verificar dependências
 log "Verificando dependências necessárias..."
-if ! command_exists docker-compose; then
-    log "ERRO: docker-compose não encontrado. Por favor, instale-o para continuar."
+if ! command_exists docker compose; then
+    log "ERRO: docker compose não encontrado. Por favor, instale-o para continuar."
     exit 1
 fi
 if ! command_exists python3; then
@@ -39,7 +39,7 @@ log "Dependências encontradas."
 
 # 2. Subir os contêineres
 log "Iniciando os contêineres com Docker Compose..."
-docker-compose up -d
+docker compose up -d
 
 # 3. Aguardar o banco de dados ficar pronto
 log "Aguardando o serviço de banco de dados ficar pronto... (tentativas por 30s)"
@@ -54,6 +54,6 @@ log "Configuração do banco de dados concluída."
 
 # 5. Desligar os contêineres
 log "Parando os contêineres..."
-docker-compose down
+docker compose down
 
 log "Script finalizado com sucesso."

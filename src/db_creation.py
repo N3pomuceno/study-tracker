@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
-from util.db_config import get_database_engine, load_environment_variables_for_db
+from util.db_config import get_database_engine, load_environment_variables_for_db, setup_engine
 from util.logger import setup_logger
 
 logger = setup_logger(level="INFO")
@@ -48,7 +48,7 @@ class HorasEstudo(Base):
     __tablename__ = "horas_estudo"
 
     id = Column(Integer, primary_key=True)
-    data = Column(DateTime, nullable=False, default=datetime.utcnow)
+    data = Column(DateTime, nullable=False, default=datetime.now())
     horas = Column(Float, nullable=False)
     observacao = Column(String)
 
@@ -158,13 +158,10 @@ def setup_database(engine) -> None:
 
 # --- Execução Principal ---
 if __name__ == "__main__":
-    # 1. Carregar variáveis de ambiente
-    env_vars = load_environment_variables_for_db()
+    # 1. Carregar variáveis de ambiente, Criar a engine do banco de dados
+    engine = setup_engine()
 
-    # 2. Criar a engine do banco de dados
-    engine = get_database_engine(env_vars)
-
-    # 3. Rodar a função de setup
+    # 2. Rodar a função de setup
     setup_database(engine)
 
     logger.info(

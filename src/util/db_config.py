@@ -31,6 +31,14 @@ def get_database_engine(env_vars):
     return create_engine(database_url, echo=True)
 
 
+def setup_engine():
+    """
+    Sets up the database engine using environment variables.
+    """
+    env_vars = load_environment_variables_for_db()
+    return get_database_engine(env_vars)
+
+
 def send_csv_to_db(filepath: Path, table_name: str) -> None:
     """
     Sends a CSV file to a database table.
