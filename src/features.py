@@ -39,13 +39,16 @@ def add_study_session(session_data: Session):
     categoria_id = input("Selecione a categoria da sessão de estudo (número): ")
     categoria_id = categorias[int(categoria_id) - 1].id
 
+    # Obter observações adicionais
+    observacao = input("Observações adicionais (opcional): ")
 
     # Create a new study session
     new_study_session = HorasEstudo(
         data=date,
         horas=horas,
         materia_id=materia_id,
-        categoria_id=categoria_id
+        categoria_id=categoria_id,
+        observacao=observacao
     )
     session_data.add(new_study_session)
     session_data.commit()
@@ -67,7 +70,8 @@ def view_recent_study_sessions(session_data: Session):
     for horas_estudo, materia, categoria in recent_sessions:
         print(
             f"Data: {horas_estudo.data}, Horas: {horas_estudo.horas}, "
-            f"Matéria: {materia.nome}, Categoria: {categoria.nome}"
+            f"Matéria: {materia.nome}, Categoria: {categoria.nome},",
+            f"Observação: {horas_estudo.observacao if horas_estudo.observacao else 'Nenhuma'}"
         )
 
 

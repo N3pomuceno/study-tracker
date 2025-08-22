@@ -14,7 +14,7 @@ command_exists() {
 
 LOGS_DIR="./logs"
 mkdir -p "$LOGS_DIR"
-LOG_FILE="${LOGS_DIR}/db_config-$(date +"%Y-%m-%d_%H-%M-%S").log"
+LOG_FILE="${LOGS_DIR}/main-$(date +"%Y-%m-%d_%H-%M-%S").log"
 
 # Redireciona toda a saída (stdout e stderr) para o log e para o terminal
 exec > >(tee -a "$LOG_FILE") 2>&1
@@ -41,16 +41,17 @@ log "Dependências encontradas."
 log "Iniciando os contêineres com Docker Compose..."
 docker compose up -d
 
+
 # 3. Aguardar o banco de dados ficar pronto
 log "Aguardando o serviço de banco de dados ficar pronto... (tentativas por 30s)"
 WAIT_COMMAND="while ! nc -z localhost 5433; do sleep 1; done"
 timeout 30s bash -c "$WAIT_COMMAND" || (log "ERRO: Banco de dados não ficou disponível a tempo." && docker-compose down && exit 1)
 log "Banco de dados está pronto para aceitar conexões."
 
-# 4. Rodar o script de setup do banco
-log "Executando o script de configuração do banco de dados..."
-python3 src/db_creation.py
-log "Configuração do banco de dados concluída."
+# 4. Rodar o script de execução
+log "Executando o script de execução do banco de dados..."
+python3 src/main.py
+log "Execução do script concluída."
 
 # 5. Desligar os contêineres
 log "Parando os contêineres..."

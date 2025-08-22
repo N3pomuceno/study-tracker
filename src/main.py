@@ -43,7 +43,10 @@ def main():
             elif choice == "2":
                 logger.info("User chose to view study sessions.")
                 # Call the function to view study sessions
-                features.view_recent_study_sessions(session)
+                try:
+                    features.view_recent_study_sessions(session)
+                except Exception as e:
+                    logger.error(f"Error viewing study sessions: {e}")
             elif choice == "3":
                 logger.info("User chose to edit a study session.")
                 # Call the function to edit a study session

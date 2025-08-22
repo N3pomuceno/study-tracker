@@ -121,6 +121,7 @@ def setup_database(engine) -> None:
             {"nome": "Matemática"},
             {"nome": "Português"},
             {"nome": "Estatística"},
+            {"nome": "Ciência da Computação"},
             {"nome": "Ciência de Dados"},
             {"nome": "Políticas Públicas"},
             # {'nome': 'Outra'} # Good to have a fallback
