@@ -59,7 +59,7 @@ src/run_study_tracker.sh
 - [ ] Create feature to see a report for the week and for the month.
 - [ ] Create CRUD feature for Categoria and for Materias.
 - [ ] Create Separated Menus for the CRUD of Categoria and Materias.
-- [ ] Create import and export feature to a csv file, trying to do without pandas.
+- [x] Create import and export feature to a csv file, trying to do without pandas.
 
 
 **Second Phase**

@@ -14,13 +14,17 @@ def display_menu():
     print("4. Edit Matérias")
     # print("3. Edit Study Session")
     # print("4. Delete Study Session")
-    print("5. Exit")
+    print("5. Weekly Report")
+    print("6. Monthly Report")
+    print("7. Export data")
+    print("8. Import data")
+    print("9. Exit")
 
 
 def make_choice() -> str:
     choice = input("Please enter your choice: ")
-    while choice not in ["1", "2", "3", "4", "5"]:
-        choice = input("Invalid choice. Please enter a number between 1 and 5: ")
+    while choice not in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+        choice = input("Invalid choice. Please enter a number between 1 and 9: ")
     return choice
 
 
@@ -32,7 +36,7 @@ def main():
         choice = make_choice()
         logger.info(f"User selected option {choice}.")
 
-        while choice != "5":
+        while choice != "9":
             if choice == "1":
                 logger.info("User chose to add a new study session.")
                 # Call the function to add a study session
@@ -55,6 +59,32 @@ def main():
                 logger.info("User chose to delete a study session.")
                 # Call the function to delete a study session
                 # features.delete_study_session(session_id)
+            elif choice == "5":
+                logger.info("User chose to view the weekly report.")
+                # Call the function to generate a weekly report
+                try:
+                    features.generate_weekly_report(session)
+                except Exception as e:
+                    logger.error(f"Error generating weekly report: {e}")
+            elif choice == "6":
+                logger.info("User chose to view the monthly report.")
+                # Call the function to generate a monthly report
+                try:
+                    features.generate_monthly_report(session)
+                except Exception as e:
+                    logger.error(f"Error generating monthly report: {e}")
+            elif choice == "7":
+                logger.info("User chose to export data.")
+                try:
+                    features.export_data(session)
+                except Exception as e:
+                    logger.error(f"Error exporting data: {e}")
+            elif choice == "8":
+                logger.info("User chose to import data.")
+                try:
+                    features.import_data(session)
+                except Exception as e:
+                    logger.error(f"Error importing data: {e}")
 
             display_menu()
             choice = make_choice()

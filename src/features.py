@@ -1,4 +1,6 @@
+import os
 import datetime
+import pandas as pd
 from requests import Session
 from util.db_config import get_database_engine, load_environment_variables_for_db
 from util.logger import setup_logger
@@ -24,7 +26,7 @@ def add_study_session(session_data: Session):
         date = datetime.datetime.now()  # Default to current date
     else:
         # turn into datetime
-        date = datetime.strptime(date, "%Y-%m-%d")
+        date = datetime.datetime.strptime(date, "%Y-%m-%d")
     horas = input("Número de horas estudadas (Formato de Float): ")
     # Get Materias disponíveis
     materias = session_data.query(Materia).all()
@@ -84,3 +86,44 @@ def delete_last_study_session(session_id):
     # Code to delete the last study session from the database
     pass
 
+def generate_weekly_report(session_data: Session):
+    # Code to generate a weekly report
+    pass
+
+def generate_monthly_report(session_data: Session):
+    # Code to generate a monthly report
+    pass
+
+def export_data(session_data: Session):
+    data = session_data.query(HorasEstudo, Materia, Categoria) \
+        .join(Materia, HorasEstudo.materia_id == Materia.id) \
+        .join(Categoria, HorasEstudo.categoria_id == Categoria.id).all()
+    df = pd.DataFrame([{
+        'data': horas_estudo.data,
+        'horas': horas_estudo.horas,
+        'materia': materia.nome,
+        'categoria': categoria.nome,
+        'categoria_descricao': categoria.descricao,
+        'observacao': horas_estudo.observacao
+    } for horas_estudo, materia, categoria in data])
+    df.to_csv("data/exported_data.csv", index=False)
+
+def import_data(session_data: Session, file_path: str="data/imported_data.csv") -> None:
+
+    if not os.path.exists(file_path):
+        raise ValueError("File not found.")
+
+    if not file_path.endswith('.csv'):
+        raise ValueError("Only CSV files are supported for import.")
+    
+    df = pd.read_csv(file_path)
+    for _, row in df.iterrows():
+        new_entry = HorasEstudo(
+            data=row['data'],
+            horas=row['horas'],
+            materia_id=row['materia'],
+            categoria_id=row['categoria'],
+            observacao=row['observacao']
+        )
+        session_data.add(new_entry)
+    session_data.commit()
